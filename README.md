@@ -7,7 +7,8 @@
 安装本插件后，需要新建一个工程文件"hexoproj.json"
 该文件用于配置远程服务器的信息
 
-![](image/dirstruct.png)
+![](https://github.com/xiongyu/hexowriter/blob/master/image/dirstruct.png
+)
 
 ```Json
 {
@@ -23,17 +24,16 @@
 - User: 有权限写blog的用户名
 - Password: 密码
 - HexoRoot: 你的hexo blog的根目录
-
 ## 如何写作
-![](image/wenzhang.png)
+![](https://github.com/xiongyu/hexowriter/blob/master/image/wenzhang.png)
 
 写作对目录结构有一定的要求，每一篇文章都是一个文件夹，文章的内容都必须写在article.md里，文章用到的图片，放在和md同目录下，编辑时，就可以直接预览的，如上图所示。
 
 ## 如何上传文章
-![](image/howcommit.png)
+![](https://github.com/xiongyu/hexowriter/blob/master/image/howcommit.png)
 当打开的目录里包含了hexoproj.json文件时，就会激活插件，在UI的左下方会有2个按钮，一个是上传文章，一个是发布，上传文章只是提交倒hexo_root/source/_post, 需要上传完毕后再点发布，才会生成静态页面
 
-![](image/vscode.gif)
+![](https://github.com/xiongyu/hexowriter/blob/master/image/vscode.gif)
 
 上传完成并发布后，远端的hexo就会可以访问。如果你的博客不是发布后就可以看到，你可能还得拷贝到可以看到的地方。
 
