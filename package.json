@@ -3,9 +3,16 @@
 	"displayName": "HexoWriter",
 	"description": "Plug in for writing hexo",
 	"version": "0.0.1",
+	"publisher": "xyCode",
+	"icon": "image/logo.png",
 	"engines": {
 		"vscode": "^1.42.0"
 	},
+	"keywords": [
+        "vscode",
+        "hexo",
+        "writer"
+    ],
 	"categories": [
 		"Other"
 	],
@@ -49,5 +56,13 @@
 	},
 	"dependencies": {
 		"ssh2": "^0.8.8"
-	}
+	},
+	"bugs": {
+        "url": "https://github.com/xiongyu/hexowriter/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "hhttps://github.com/xiongyu/hexowriter"
+    },
+    "homepage": "http://feichanghaowan.com"
 }
