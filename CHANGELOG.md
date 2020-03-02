@@ -1,9 +1,12 @@
-# Change Log
+# 更新日志
 
-All notable changes to the "hexowriter" extension will be documented in this file.
+## [0.0.2] - 2020-03-02
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+### 变更
 
-## [Unreleased]
+* 调整VSCode依赖版本为`1.28.0`,之前版本依赖过高
 
-- Initial release
+## [0.0.1] - 2020-03-02
+
+### 新增
+* 插件开发完成。发布
