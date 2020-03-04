@@ -4,6 +4,32 @@ import * as vscode from 'vscode';
 import { SshClient } from './myssh2';
 import { Settings } from './settings';
 import os = require('os');
+import fs = require('fs');
+import path = require('path');
+
+function formatDateTime(dt = -1) {
+    let date;
+    if ( -1 === dt ) {
+        date = new Date();
+    }
+    else {
+        date = new Date(dt);
+    }
+    let y = date.getFullYear();
+    let m = date.getMonth() + 1;
+    let d = date.getDate();
+    let h = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+
+    const sm: string = m < 10 ? ('0' + m) : `${m}`;
+    const sd: string = d < 10 ? ('0' + d) : `${d}`;
+    const sh: string = h < 10 ? ('0' + h) : `${h}`;
+    const sminute: string = minute < 10 ? ('0' + minute) : `${minute}`;
+    const ssecond: string = second < 10 ? ('0' + second) : `${second}`;
+
+    return `${y}-${sm}-${sd} ${sh}:${sminute}:${ssecond}`;
+}
 
 function getFileName(o: string) {
     let splitflag: string = "/";
@@ -18,6 +44,36 @@ function getDir(f: string) {
 	const filename: string = getFileName(f);
 	const d: string = f.replace(filename, "");
 	return d;
+}
+
+function makeDir(dirpath: string) {
+	if (!fs.existsSync(dirpath)) {
+		let pathtmp: string;
+		let sp: string;
+		if ( os.platform() === "win32" ) {
+			sp = "\\";
+		}
+		else{
+			sp = "/";
+		}
+		dirpath.split(sp).forEach(function(dirname) {
+			if (pathtmp) {
+				pathtmp = path.join(pathtmp, dirname);
+			}
+			else {
+　　　　　　　　　 //如果在linux系统中，第一个dirname的值为空，所以赋值为"/"
+				if(dirname){
+					pathtmp = dirname;
+				}else{
+					pathtmp = "/";
+				}
+			}
+			if (!fs.existsSync(pathtmp)) {
+				fs.mkdirSync(pathtmp);
+			}
+		});
+	}
+	return true;
 }
 
 // this method is called when your extension is activated
@@ -143,6 +199,45 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
+	let disposable3 = vscode.commands.registerCommand('extension.hexowriter.new', async () => {
+		
+		const opstions: any = {
+			password:false, // 输入内容是否是密码
+			ignoreFocusOut:false, // 默认false，设置为true时鼠标点击别的地方输入框不会消失
+			placeHolder:'文章标题', // 在输入框内的提示信息
+			prompt:'输入你这篇文章的标题', // 在输入框下方的提示信息
+		};
+
+		const cbfunc: any = (msg: string) => {
+			console.log("用户输入："+msg);
+			const newdir: string = `${vscode.workspace.rootPath}/${msg}`;
+			makeDir(newdir);
+			const articlefile: string = `${newdir}/article.md`;
+
+			const headtitle: string = `---\n\
+title: ${msg}\n\
+date: ${formatDateTime()}\n\
+tags:\n\
+---\n`;
+
+			fs.writeFile(articlefile, headtitle, () => {
+				vscode.workspace.openTextDocument(articlefile).then((document)=>{
+				vscode.window.showTextDocument(document, {
+					preview: true
+				});
+				});
+			});
+		};
+
+		vscode.window.showInputBox(opstions).then(cbfunc);
+		
+	});
+
+	const sbi1 = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
+	sbi1.text = `$(file) 新建文章`;
+	sbi1.command = "extension.hexowriter.new";
+	sbi1.show();
+
 	const sbi = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left);
 	sbi.text = `$(cloud-upload) 上传文章`;
 	sbi.command = "extension.hexowriter.commit";
@@ -155,6 +250,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(disposable);
 	context.subscriptions.push(disposable2);
+	context.subscriptions.push(disposable3);
 }
 
 // this method is called when your extension is deactivated

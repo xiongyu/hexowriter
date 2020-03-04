@@ -2,7 +2,7 @@
 	"name": "hexowriter",
 	"displayName": "HexoWriter",
 	"description": "Plug in for writing hexo",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"publisher": "xyCode",
 	"icon": "image/logo.png",
 	"engines": {
@@ -29,6 +29,10 @@
 			{
 				"command": "extension.hexowriter.generate",
 				"title": "HexoWriter Generate"
+			},
+			{
+				"command": "extension.hexowriter.new",
+				"title": "HexoWriter New"
 			}
 		]
 	},
